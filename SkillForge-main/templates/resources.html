@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Study Resources</title>
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<style>
+
+body{
+
+background:#0f172a;
+
+font-family:Poppins;
+
+color:white;
+
+}
+
+.container{
+
+margin-top:40px;
+
+}
+
+.resource-card{
+
+background:#1e293b;
+
+padding:25px;
+
+border-radius:15px;
+
+margin-bottom:20px;
+
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+
+}
+
+.category{
+
+color:#38bdf8;
+
+font-weight:bold;
+
+}
+
+.description{
+
+color:#cbd5e1;
+
+margin-top:10px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2 class="mb-4">
+
+📚 Study Resources
+
+</h2>
+
+{% for resource in resources %}
+
+<div class="resource-card">
+
+<h4>
+
+{{ resource.title }}
+
+</h4>
+
+<p class="category">
+
+Category:
+{{ resource.category }}
+
+</p>
+
+<p class="description">
+
+{{ resource.description }}
+
+</p>
+
+{% if resource.link %}
+
+<a
+href="{{ resource.link }}"
+target="_blank"
+class="btn btn-success">
+
+🌐 Open Link
+
+</a>
+
+{% endif %}
+
+
+{% if resource.pdf %}
+
+<a
+href="{{ resource.pdf.url }}"
+target="_blank"
+class="btn btn-primary">
+
+📄 View PDF
+
+</a>
+
+{% endif %}
+
+</div>
+
+{% empty %}
+
+<div class="alert alert-warning">
+
+No study resources available.
+
+</div>
+
+{% endfor %}
+
+<br>
+
+<a
+
+href="/"
+
+class="btn btn-primary">
+
+🏠 Back to Dashboard
+
+</a>
+
+</div>
+
+</body>
+
+</html>
