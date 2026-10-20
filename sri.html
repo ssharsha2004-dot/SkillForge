@@ -1,0 +1,505 @@
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gaming Company</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: linear-gradient(135deg, #000000, #292929);
+            color: #ffffff;
+        }
+        header, section {
+            padding: 20px;
+            text-align: center;
+        }
+        .hero {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 50px 20px;
+            border-radius: 8px;
+            margin: 20px;
+            color: #fff;
+        }
+        .logo img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #ff0000;
+        }
+        .games {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            background-color: #000000;
+            padding: 20px;
+            border-radius: 8px;
+            width: 200px;
+            box-shadow: 0 4px 8px rgba(255, 20, 20, 0.5);
+            color: #fff;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* Admin Panel Styling */
+        .admin-icon {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #4f4f4f;
+            color: #fff;
+            padding: 10px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: background-color 0.3s;
+        }
+        .admin-icon:hover {
+            background-color: #333;
+        }
+        .admin-panel {
+            position: fixed;
+            right: -300px;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #000000;
+            padding: 20px;
+            transition: right 0.5s;
+            z-index: 999;
+            box-shadow: -4px 0 8px #f5000044;
+            overflow-y: auto;
+        }
+        .admin-panel input, .admin-panel textarea, .admin-panel button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #f5000044;
+            background-color: #1c1c1c;
+            color: #ffffffe1;
+            border-radius: 4px;
+        }
+        .admin-panel button {
+            background-color: #ff0000cb ;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .admin-panel button:hover {
+            background-color: #f5000044;
+        }
+
+        /* Forms Styling */
+        .form-section {
+            background-color: #000000;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.5);
+            width: 80%;
+            max-width: 500px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        input, textarea, button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ff00009d;
+            background-color: #000000;
+            color: #fdfdfd;
+        }
+        button {
+            background-color: #ff0000e1;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+        }
+        button:hover {
+            background-color:  #ff00007e;
+        }
+        .password-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.password-modal .modal-content {
+    background: #1c1c1c;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #ff0000;
+    text-align: center;
+}
+
+.password-modal input[type="password"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    border: 1px solid #ff0000;
+    background: #000;
+    color: #fff;
+    border-radius: 6px;
+}
+
+.password-modal button {
+    margin: 5px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    background-color: #ff0000cb;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.password-modal button:hover {
+    background-color: #ff00007e;
+}
+
+    </style>
+</head>
+<body>
+<!-- Admin Icon -->
+<div class="admin-icon" onclick="showPasswordModal()">
+    <img src="C:/Users/Smile/Desktop/PROJECT/worker-employee-businessman-avatar-profile-icon-vector.jpg" alt="Admin" style="width: 30px; height: 30px;">
+</div>
+
+<!-- Admin Password Modal -->
+<div id="passwordModal" class="password-modal">
+    <div class="modal-content">
+        <h2>Admin Login</h2>
+        <input type="password" id="adminPasswordInput" placeholder="Enter Password">
+        <button onclick="verifyAdminPassword()">Submit</button>
+        <button onclick="hidePasswordModal()">Cancel</button>
+    </div>
+</div>
+
+
+<!-- Admin Panel -->
+<div class="admin-panel" id="adminPanel">
+    <h2>Add New Game</h2>
+    <input type="text" id="gameTitle" placeholder="Game Title" required />
+    <input type="text" id="gameLink" placeholder="Game Link (URL)" required />
+    <input type="file" id="gameImage" accept="image/*" required />
+    <button onclick="addGame()">Add Game</button>
+</div>
+
+<!-- Main Content -->
+<div id="mainContent">
+    <header class="hero">
+        <div class="logo">
+            <img src="c:\Users\Smile\Downloads\ChatGPT Image Feb 13, 2026, 10_44_46 PM.png" alt="Gaming Company Logo" />
+        </div>
+        <div class="cover">
+        <h1>SIMULATED REALITY INNOVATIONS </h1>
+        <p>WE ARISE FROM THE ASHES</p>
+    </header>
+
+    <!-- Games Section -->
+    <section class="games" id="gamesSection">
+        <div class="card">
+            <img src="c:\Users\Smile\Desktop\PROJECT\download (2).jpg" alt="SUBWAY SURFERS">
+            <h3>SUBWAY SURFERS</h3>
+            <a href="https://poki.com/en/g/subway-surfers">SUBWAY SURFERS</a>
+            <p>Subway Surfers: Dash as fast as you can through the subway</p>
+        </div>
+        <div class="card">
+            <img src="C:\Users\Smile\Desktop\PROJECT\maxresdefault.jpg" alt="SLOWROADS">
+           <style>
+            a { color:  #c8ff00;}
+           </style>
+            <h3>SLOWROADS</h3>
+            <a href="https://slowroads.io/">SLOWROADS</a>
+            <p>Find peace on the open road</p>
+        </div>
+        <div class="card">
+            <img src="c:\Users\Smile\Desktop\PROJECT\download.png" alt="CLASSIC CHESS">
+            <h3>CLASSIC CHESS</h3>
+            <a href="https://poki.com/en/g/classic-chess">CLASSIC CHESS</a> 
+            <p>When you see a good move, look for a better one</p>
+        </div>
+        <div class="card">
+            <img src="C:\Users\Smile\Desktop\PROJECT\ZTYPE.jpg" alt="ZTYPE">
+            <h3>ZTYPE</h3>
+            <a href="https://zty.pe/">ZTYPE</a> 
+            <p>Fun typing game to improve typing speed and accuracy</p>
+        </div>
+        <div class="card">
+            <img src="c:\Users\Smile\Desktop\PROJECT\images.jpg" alt="SMASH KARTS">
+            <h3>SMASH KARTS</h3>
+            <a href="https://poki.com/en/g/smash-karts">SMASH KARTS</a>
+            <p>Multiplayer game</p>
+        </div> 
+        <div class="card">
+            <img src="c:\Users\Smile\Desktop\PROJECT\level-devil.avif" alt="LEVEL DEVIL">
+            <h3>LEVEL DEVIL</h3>
+            <a href="https://poki.com/en/g/level-devil">LEVEL DEVIL</a>
+            <p>New level New devil</p>
+        </div> 
+        <div class="card">
+            <img src="c:\Users\Smile\Desktop\PROJECT\images (1).jpg" alt="HILL CLIMB">
+            <h3>HILL CLIMB</h3>
+            <a href="https://poki.com/en/g/hill-climb-racing-lite">HILL CLIMB</a>
+            <p>Smash through zombies</p>
+        </div>  
+    </section> 
+
+    <!-- Community Forum -->
+    <section class="form-section">
+        <h2>COMMUNITY FORM</h2>
+        <form action="https://formspree.io/f/mnndqbkd" method="POST">
+            <input type="text" name="username" placeholder="Your Name" required />
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Post</button>
+        </form>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="form-section">
+        <h2>CONTACT US</h2>
+        <form action="https://formspree.io/f/xldbewyo" method="POST">
+            <input type="email" name="email" placeholder="Your Email" required />
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </section>
+</div>
+
+<script>
+    const adminPassword = "admin123";
+
+    function showPasswordModal() {
+        document.getElementById('passwordModal').style.display = 'flex';
+        document.getElementById('adminPasswordInput').focus();
+    }
+
+    function hidePasswordModal() {
+        document.getElementById('passwordModal').style.display = 'none';
+        document.getElementById('adminPasswordInput').value = '';
+    }
+
+    function verifyAdminPassword() {
+        const enteredPassword = document.getElementById('adminPasswordInput').value;
+        const panel = document.getElementById('adminPanel');
+
+        if (enteredPassword === adminPassword) {
+            panel.style.right = '0px';
+            hidePasswordModal();
+        } else {
+            alert("Incorrect password. Access denied!");
+        }
+    }
+
+    function addGame() {
+        const title = document.getElementById('gameTitle').value;
+        const link = document.getElementById('gameLink').value;
+        const image = document.getElementById('gameImage').files[0];
+        if (!title || !link || !image) {
+            alert("Please fill all fields!");
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.innerHTML = `
+                <img src="${event.target.result}" alt="${title}">
+                <h3><a href="${link}" target="_blank">${title}</a></h3>
+            `;
+            document.getElementById('gamesSection').appendChild(card);
+        };
+        reader.readAsDataURL(image);
+    }
+
+    // Chat functionality
+    function toggleChatPanel() {
+        const chatPanel = document.getElementById('chatPanel');
+        chatPanel.style.left = (chatPanel.style.left === '0px') ? '-320px' : '0px';
+    }
+</script>
+
+<!-- Chat Icon -->
+<div class="chat-icon" onclick="toggleChatPanel()">
+    💬
+</div>
+
+<!-- Chat Panel -->
+<div class="chat-panel" id="chatPanel">
+    <h2>Community Chat</h2>
+    <div id="chatMessages"></div>
+    <input type="text" id="chatUsername" placeholder="Your Name" />
+    <textarea id="chatMessage" placeholder="Type your message..."></textarea>
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<style>
+    .chat-icon {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        background-color: #6e6e6e;
+        color: #fff;
+        padding: 12px;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        font-size: 20px;
+        text-align: center;
+        cursor: pointer;
+        z-index: 1000;
+        transition: background-color 0.5s;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    }
+    .chat-icon:hover {
+        background-color: #333;
+    }
+
+    .chat-panel {
+        position: fixed;
+        left: -450px;
+        top: 0;
+        width: 300px;
+        height: 80%;
+        background-color: #000000;
+        padding: 70px;
+        transition: left 0.5s;
+        z-index: 999;
+        box-shadow: 4px 0 8px #f5000044;
+        display: flex;
+        flex-direction: column;
+        border-radius: 0 10px 10px 0;
+    }
+
+    #chatMessages {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: 10px;
+        padding: 5px;
+        background-color: #1c1c1c;
+        border-radius: 8px;
+        border: 1px solid #f5000044;
+        color: #fff;
+        font-size: 14px;
+        box-shadow: inset 0 2px 4px rgba(255, 20, 20, 0.5);
+    }
+
+    .chat-panel input, .chat-panel textarea, .chat-panel button {
+        width: 93%;
+        padding: 5px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        border: 1px solid #f5000044;
+        background-color: #1c1c1c;
+        color: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        transition: background-color 0.3s;
+    }
+
+    .chat-panel button {
+        background-color: #ff0000cb;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .chat-panel button:hover {
+        background-color: #f5000044;  
+    }
+
+    .chat-panel h2 {
+        margin-bottom: 15px;
+        color: #fff;
+        font-size: 20px;
+        border-bottom: 1px solid #ff0000;
+        padding-bottom: 10px;
+    }
+
+    #chatMessages div {
+        padding: 8px;
+        margin-bottom: 5px;
+        border-radius: 6px;
+        background-color: #333;
+        color: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    #chatMessages strong {
+        color: #ff9800;
+    }
+
+    #chatMessages small {
+        color: #aaa;
+        font-size: 12px;
+        margin-left: 5px;
+    }
+</style>
+<script>
+    function sendMessage() {
+        const username = document.getElementById('chatUsername').value.trim();
+        const message = document.getElementById('chatMessage').value.trim();
+        if (!username || !message) {
+            alert("Please enter both your name and a message.");
+            return;
+        }
+
+        // Create a message element
+        const messageElement = document.createElement('div');
+        messageElement.innerHTML = `<strong>${username}:</strong> ${message}`;
+        document.getElementById('chatMessages').appendChild(messageElement);
+
+        // Save to localStorage
+        const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+        messages.push({ username, message });
+        localStorage.setItem('chatMessages', JSON.stringify(messages));
+
+        // Clear inputs
+        document.getElementById('chatUsername').value = '';
+        document.getElementById('chatMessage').value = '';
+    }
+
+    // Function to load messages from localStorage on page load
+    function loadMessages() {
+        const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+        const chatMessages = document.getElementById('chatMessages');
+        chatMessages.innerHTML = ''; // Clear previous messages
+        messages.forEach(msg => {
+            const messageElement = document.createElement('div');
+            messageElement.innerHTML = `<strong>${msg.username}:</strong> ${msg.message}`;
+            chatMessages.appendChild(messageElement);
+        });
+    }
+
+    // Load messages when the page loads
+    window.onload = loadMessages;
+</script>
+
+</body>
+</html>

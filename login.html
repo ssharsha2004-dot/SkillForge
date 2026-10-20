@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Login SIMULATED REALITY INNOVATIONS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #000000, #292929);
+            color: #fefffb;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: #000000;
+            padding: 90px;
+            border-radius: 30px;
+            box-shadow: 0 8px 16px#f50000c7; 
+            width: 90%;
+            max-width: 250px;
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 6px;
+            background-color: #1c1c1c;
+            color: #fff;
+            font-size: 16px;
+            border: 1px solid #f5000044;
+        }
+        button {
+            width: 110%;
+            padding: 12px;
+            background-color: #000000;
+            border: none;
+            border-radius: 6px;
+            border: 2px solid #f5000044;
+            font-size: 16px;
+            cursor: pointer;
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #f80000c5;
+        }
+        .note {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>LOGIN</h1>
+        <h2>SIMULATED REALITY INNOVATIONS</h2>
+        <form onsubmit="return handleLogin(event)">
+            <input type="text" id="username" placeholder="Username" required />
+            <input type="password" id="password" placeholder="Password" required />
+            <button type="submit">Login</button>
+        </form>
+        <p class="note">Only authorized users can access admin features.</p>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            // Basic example for admin login check
+            if (username === "sriharsha" && password === "1234") {
+                alert("Login successful!");
+                window.location.href = "sri.html"; // redirect to main site
+            } else {
+                alert("Invalid credentials. Please try again.");
+            }
+        }
+    </script>
+</body>
+</html>
